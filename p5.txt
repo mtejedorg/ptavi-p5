@@ -49,6 +49,9 @@ Se ha capturado una sesión SIP (archivo sip.cap.gz), que se puede abrir con Wir
             pues, para cuando llegue el paquete retransmitido,
             ya no nos interesa, y estamos consumiendo recursos
             innecesariamente.
+
+ ** ¿Qué otros protocolos podemos ver en la jerarquía de protocolos?
+
     ==>     Podemos ver que dentro de UDP usamos RTP un 84.59%
             de los paquetes, RTCP un 0.21%, también usamos
             DNS y STP. Dentro de TCP usamos HTP. UDP junto con
@@ -56,9 +59,6 @@ Se ha capturado una sesión SIP (archivo sip.cap.gz), que se puede abrir con Wir
             cual son un 98.25% de los paquetes. También
             encontramos paquetes ARP (1.5%), todo dentro del
             protocolo Ethernet.
-
- ** ¿Qué otros protocolos podemos ver en la jerarquía de protocolos?
-
 
 4. Observa por encima el flujo de tramas en el menú de Statistics en IO Graphs. La captura que estamos viendo incluye desde la inicialización (registro) de la aplicación hasta su finalización, con una llamada entremedias.
  ** Filtra por sip para conocer cuándo se envían paquetes SIP. ¿En qué segundos tienen lugar esos envíos?
