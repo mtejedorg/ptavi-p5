@@ -75,20 +75,47 @@ Se ha capturado una sesión SIP (archivo sip.cap.gz), que se puede abrir con Wir
 
 5. Analiza las primeras cuatro tramas de la captura nada más arrancar Ekiga.
  ** ¿Qué servicio es el utilizado en estas tramas?
+
+    ==>     DNS (Domain Name System)
+
  ** ¿Cuál es la dirección IP del servidor de nombres del ordenador que ha lanzado Ekiga?
+
+    ==>     80.58.61.250, al que se hacen las peticiones de nombres
+
  ** ¿Qué dirección IP (de ekiga.net) devuelve el servicio de nombres?
+
+    ==>     86.64.162.35
+
  ** ¿Por qué se pide también para 35.162.64.86.in-addr.arpa?
 
+    ==>     Es el proceso de Resolución Inversa de DNS, por la cual se
+            pregunta el nombre del dominio escribiendo la IP al revés
+            seguida de in-addr-arpa
 
 6. A continuación, hay más de una docena de tramas TCP/HTTP.
  ** ¿Podrías decir la URL que se está pidiendo?
+
+    ==>     http://ekiga.net/ip/  lo vemos en el paquete HTTP
+
  ** ¿Qué user agent (UA) la está pidiendo?
+
+    ==>     Ekiga. Lo podemos ver en el mismo paquete.
+
  ** ¿Qué devuelve el servidor?
+
+    ==>     Confirma la petición con 200 OK y la dirección 83.36.48.212
+
  ** Si lanzamos el navegador web, por ejemplo, Mozilla Firefox, y vamos a la misma URL, ¿qué recibimos? ¿Qué es, entonces, lo que está respondiendo el servidor?
 
+    ==>     Recibimos nuestra IP pública, la que el router NAT utiliza
+            para las comunicaciones con otras redes.
+            En mi caso, me ha devuelto 193.147.49.62
 
 7. Hasta la trama 45 se puede observar una secuencia de tramas del protocolo STUN.
  ** ¿Por qué crees que se hace uso de este protocolo en esta captura? Busca en la Wikipedia.
+
+    ==>     
+
  ** ¿Estamos tras un NAT?
 
 
