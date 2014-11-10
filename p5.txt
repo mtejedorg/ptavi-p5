@@ -301,8 +301,12 @@ Captura una sesión SIP de una conversación con el número SIP sip:9999@qxip.ne
 
 17. Observa las diferencias en el inicio de la conversación entre el entorno del laboratorio y el del ejercicio anterior:
  ** ¿Es necesario el uso de DNS y STUN? ¿Por qué?
+
+        ==> Sí. Necesitamos DNS para conocer el nombre de nuestro destino, y STUN para atravesar el router NAT.
+
  ** ¿Son diferentes el registro y la descripción de la sesión?
 
+        ==> Sí, hay una serie de peticiones (Suscribe, Publish) que no tenemos en la otra captura.
 
 18. Identifica las diferencias existentes entre esta conversación y la conversación anterior:
  ** ¿Cuántos flujos tenemos?
