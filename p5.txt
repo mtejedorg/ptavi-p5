@@ -306,12 +306,24 @@ Captura una sesión SIP de una conversación con el número SIP sip:9999@qxip.ne
 
 18. Identifica las diferencias existentes entre esta conversación y la conversación anterior:
  ** ¿Cuántos flujos tenemos?
+
+        ==> Tenemos 2 flujos: uno de 193.147.49.130 a 188.226.157.55 y otro en sentido inverso
+
  ** ¿Cuál es su periodicidad?
+
+        ==> 20 ms
+
  ** ¿Cuánto es el valor máximo del delta y los valores medios y máximo del jitter?
+
+        ==> Respectivamente, 20.99, 0.21 y 0.32 para el flujo 188 => 193 y 20.20, 0.16 y 0.20 para el flujo 193 => 188
+
  ** ¿Podrías reproducir la conversación desde Wireshark? ¿Cómo? Comprueba que poniendo un valor demasiado pequeño para el buffer de jitter, la conversación puede no tener la calidad necesaria.
+
+        ==> Sí, si en el menú Telephony=>VoIP Calls damos a play. Pierde calidad pues no puede soportar la variació de retardo, y cuando el buffer está lleno se pierde información.
+
  ** ¿Sabrías decir qué tipo de servicio ofrece sip:9999@qxip.net?
 
-
+        ==> Ofrece un servicio de audio. En el campo Payload time vemos "Payload type: ITU-T G.711 PCMA"
 
 [Al terminar el ejercicio es recomendable hacer commit de los ficheros modificados]
 
