@@ -140,33 +140,67 @@ Se ha capturado una sesión SIP (archivo sip.cap.gz), que se puede abrir con Wir
 
  ** Además de REGISTER, ¿qué instrucciones SIP entiende el UA?
 
-    ==>     Entiende INVITE,ACK,OPTIONS,BYE,CANCEL,NOTIFY,REFER,MESSAGE
+    ==>     Entiende INVITE, ACK, OPTIONS, BYE, CANCEL, NOTIFY, REFER, MESSAGE
             Lo vemos en la línea "Allow:"
 
 [Al terminar el ejercicio es recomendable hacer commit de los ficheros modificados]
 
 9. Fijémonos en las tramas siguientes a la número 46:
  ** ¿Se registra con éxito en el primer intento?
+
+    ==> No. Como podemos ver en la captura, lo intenta pero recibe un 401 Unauthorized.
+
  ** ¿Cómo sabemos si el registro se ha realizado correctamente o no?
+
+    ==> Debería recibir un 200 OK
+
  ** ¿Podrías identificar las diferencias entre el primer intento y el segundo de registro? (fíjate en el tamaño de los paquetes y mira a qué se debe el cambio)
+
+    ==> El segundo REGISTER tiene un campo más, el campo Authorization
+
  ** ¿Cuánto es el valor del tiempo de expiración de la sesión? Indica las unidades.
 
+    ==> Podemos ver que el valor de Expires es de 3600 (segundos)
 
 10. Una vez registrados, podemos efectuar una llamada. Vamos a probar con el servicio de eco de Ekiga que nos permite comprobar si nos hemos conectado correctamente. El servicio de eco tiene la dirección sip:500@ekiga.net. Veamos el INVITE de cerca.
  ** ¿Puede verse el nombre del que efectúa la llamada, así como su dirección SIP?
+
+    ==> Sí, en el campo "From" del paquete INVITE
+
  ** ¿Qué es lo que contiene el cuerpo de la trama? ¿En qué formato/protocolo está?
+
+    ==> Contiene información sobre la sesión.
+    ==> Utiliza el protocolo SDP
+
  ** ¿Tiene éxito el primer intento? ¿Cómo lo sabes?
+
+    ==> No, recibimos un 407 Proxy Authentication Required
+
  ** ¿En qué se diferencia el segundo INVITE más abajo del primero? ¿A qué crees que se debe esto?
 
+    ==> Contiene un campo más, "Proxy-Authorization"
+    ==> Se debe a n sistema de seguridad, por el cual el cliente debe registrarse para demostrar su identidad.
 
 11. Una vez conectado, estudia el intercambio de tramas.
  ** ¿Qué protocolo(s) se utiliza(n)? ¿Para qué sirven estos protocolos?
+
+    ==> Utilizamos RTP (y H.261). RTP es un protocolo destinado a la transmisión de datos a tiempo real, principalmente audio y video. H.261 es un estándar de compresión de video que utiliza RTP
+
  ** ¿Cuál es el tamaño de paquete de los mismos?
+
+    ==> Todos los paquetes RTP son de 214 bytes, y los de H.261 de más de 1000 bytes algunos, y otros pequeños (200-500 bytes).
+
  ** ¿Se utilizan bits de padding?
+
+    ==> No, el valor de Padding es siempre False.
+
  ** ¿Cuál es la periodicidad de los paquetes que se envían?
+
+    ==> Aproximadamente, cada 24 ms.
+
  ** ¿Cuántos bits/segundo estamos enviando?
 
-
+    ==> En los mensajes RTP, que envían 214 bytes cada 24 ms, tenemos una velocidad de unos 71.3 kbps.
 
 [Al terminar el ejercicio es recomendable hacer commit de los ficheros modificados]
 
