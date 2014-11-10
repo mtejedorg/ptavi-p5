@@ -206,37 +206,89 @@ Se ha capturado una sesión SIP (archivo sip.cap.gz), que se puede abrir con Wir
 
 12. Vamos a ver más a fondo el intercambio RTP. En Telephony hay una opción RTP. Empecemos mirando los flujos RTP.
  ** ¿Cuántos flujos hay? ¿por qué?
+
+    ==> Hay 2 flujos, ambos de la máquina 192.168.1.34 a la máquina 86.64.162.35. Uno de ellos son 196 paquetes del puerto 5014 al 19062, y el otro 611 paquetes del puerto 5010 al 12440
+        Un flujo es de los paquetes RTP (puerto 5010) , y el otro de los paquetes H.261 (5014)
+
  ** ¿Cuántos paquetes se pierden?
+
+    ==> Ninguno (Campo Lost es 0)
+
  ** ¿Cuál es el valor máximo del delta? ¿Y qué es lo que significa el valor de delta?
+
+    ==> 1290.48 ms para el flujo H.261 y 1290.44 ms para el flujo RTP.
+    ==> Es el tiempo máximo entre dos paquetes seguidos
+
  ** ¿Cuáles son los valores de jitter (medio y máximo)? ¿Qué quiere decir eso? ¿Estamos ante una conversación de calidad?
 
+    ==> Para el flujo H.261, el valor máximo de Jitter es 183.10 ms y el valor medio 153.24. Para el flujo RTP, el valor máximo de Jitter es 119.64 ms y el valor medio 42.50.
+    ==> Nos dice la variación del retardo máxima y media entre todos los paquetes. 
+    ==> El umbral de calidad establece un Jitter inferior a 50 ms como aceptable y uno superior como de calidad pobre. En nuestro caso, la calidad en el flujo RTP es aceptable y la calidad en el flujo H.261 es pobre.
 
 13. Elige un paquete RTP de audio. Analiza el flujo de audio en Telephony -> RTP -> Stream Analysis.
  ** ¿Cuánto valen el delta y el jitter para el primer paquete que ha llegado?
+
+    ==> Delta = 0.0 ms, Jitter = 0.0 ms
+
  ** ¿Podemos saber si éste es el primer paquete que nos han enviado?
+
+    ==> Al tener Delta y Jitter 0, significa que es el valor que tomamos como base para calcular valores de Delta y Jitter posteriores, por tanto es nuestro primer paquete.
+
  ** Los valores de jitter son menores de 10ms hasta un paquete dado. ¿Cuál?
+
+    ==> El paquete 247. 
+
  ** ¿A qué se debe el cambio tan brusco del jitter?
+
+    ==> A que comienzan a llegar los paquetes muy seguidos, a que la delta es casi 0, y por tanto nos llegan con anticipación con respecto al retardo original calculado.
+
  ** ¿Es comparable este cambio con el tiempo desde la recepción del paquete anterior? ¿Por qué?
+
+    ==> El delta de este paquete indica que ha pasado más de medio segundo desde el paquete anterior. La variación de retardo es pequeña comparada al retardo que ha tenido.
+
  ** ¿Cuál es la dependencia entre el tiempo transcurrido desde el paquete anterior y el valor de jitter?
+
+    ==> Wireshark utiliza la fórmula:
+           J(i) = J(i-1) + (|D(i-1,i)| - J(i-1))/16
+    para calcular el Jitter. Como vemos, utiliza los valores de delta actual y el anterior, y el valor del Jitter anterior.
 
 
 14. En Telephony selecciona el menú VoIP calls. Verás que se lista la llamada de voz IP capturada en una ventana emergente. Selecciona esa llamada y pulsa el botón Graph.
  ** ¿Cuánto dura la conversación?
+
+    ==> 24.8 segundos
+
  ** ¿Cuáles son sus SSRC? ¿Por qué hay varios SSRCs? ¿Hay CSRCs?
 
+    ==> 0xbf4afd37 y 0x43306582.
+    ==> Uno para RTP y otro para H.261, respectivamente.
+    ==> No, siempre el valor Contributing source identifiers count es 0.
 
 15. Identifica la trama donde se finaliza la conversación.
  ** ¿Qué método SIP se utiliza?
+
+    ==> Se utiliza el método BYE.
+
  ** ¿En qué trama(s)?
+
+    ==> 924, 925, 927 y 933
+
  ** ¿Por qué crees que se envía varias veces?
 
+    ==> Para asegurarse que el BYE llega, ya que el protocolo UDP no es fiable.
 
 16. Finalmente, se cierra la aplicación de VozIP.
  ** ¿Por qué aparece una instrucción SIP del tipo REGISTER?
+
+    ==> Se envía un REGISTER con tiempo Expires igual a 0, para "fingir" que su tiempo ha expirado y darse de baja.
+
  ** ¿En qué trama sucede esto?
+
+    ==> 950 y 952 (Con el campo Authorization)
+
  ** ¿En qué se diferencia con la instrucción que se utilizó con anterioridad (al principio de la sesión)?
 
-
+    ==> En el campo expires, que al principio era 3600.
 
 [Al terminar el ejercicio es recomendable hacer commit de los ficheros modificados]
 
